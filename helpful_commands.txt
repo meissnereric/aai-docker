@@ -1,0 +1,8 @@
+
+docker build -t climate .
+
+docker run -e AWS_ACCESS_KEY_ID='AKIAUGNY6UWO3F5VLC4P' -e AWS_SECRET_ACCESS_KEY='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' -t climate
+
+
+docker container list
+docker kill ....

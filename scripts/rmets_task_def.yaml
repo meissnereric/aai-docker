@@ -1,0 +1,56 @@
+---
+Parameters:
+  ContainerLocation:
+    Type: String
+    Default: 288687564189.dkr.ecr.eu-west-1.amazonaws.com/climate-ensembling:climate
+    Description: The URL to the container for the Task Definiton (typically in ECR).
+  ContainerMemory:
+    Type: Integer
+    Default: 61440
+    Description: Memory to assign the container.
+  ContainerCPU:
+    Type: Integer
+    Default: 8192
+    Description: vCPU throughput to assign the container. (0-~16000)
+  ContainerStorage:
+    Type: Integer
+    Default: 200
+    Description: Ephemeral storage size in GB to assign the container. Maximum 200.
+  
+
+Resources:
+  AIITaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      executionRoleArn: arn:aws:iam::288687564189:role/ecsTaskExecutionRole
+      containerDefinitions:
+      - logConfiguration:
+          logDriver: awslogs
+          options:
+            awslogs-group: "/ecs/AAI-Docker-Task"
+            awslogs-region: eu-west-1
+            awslogs-stream-prefix: ecs
+        entryPoint:
+        - sh
+        - "-c"
+        portMappings:
+        - hostPort: 80
+          protocol: tcp
+          containerPort: 80
+        command:
+        - /bin/sh -c "ls && pwd && echo 'hello'"
+        cpu: 0
+        image: ContainerLocation
+        name: AAI-Docker-Task1
+      taskRoleArn: arn:aws:iam::288687564189:role/climate-container-role
+      family: AAI-Docker-Task
+      memory: ContainerMemory
+      cpu: ContainerCPU
+      ephemeralStorage:
+        sizeInGiB: ContainerStorage
+      requiresCompatibilities:
+      - FARGATE
+      networkMode: awsvpc
+      tags:
+      - key: template_creator
+        value: erm70
