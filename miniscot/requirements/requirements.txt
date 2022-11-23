@@ -1,0 +1,7 @@
+numpy>=1.19.5
+pandas>=1.1.5
+matplotlib>=3.3.4
+boto3>=1.11.0
+setuptools>=39.1.0
+requests>=2.27.1
+s3fs>=2022.1.0

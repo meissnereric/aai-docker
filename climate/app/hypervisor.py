@@ -52,7 +52,7 @@ class Hypervisor():
         return isinstance(value, type("")) and value.startswith("s3://")
 
     def _parse_data(self, key, value): 
-        if self._is_input_data(value): # TODO Change to "if self.is_input_data(value)"
+        if self._is_input_data(value):
             s3_key, s3_bucket = self._parse_s3_uri(value)
             print("Parsing data for key: {} value: {}, coming from s3 key {} and bucket {}.".format(key, value, s3_key, s3_bucket))
             if key not in self.data:
